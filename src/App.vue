@@ -1,12 +1,34 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <canvas id="planet-chart"></canvas>
   </div>
 </template>
+
+<script>
+import Chart from 'chart.js';
+import planetChartData from './charts/chart-data.js';
+export default {
+  data() {
+    return {
+      planetChartData: planetChartData,
+    }
+  },
+  mounted() {
+    this.createChart('planet-chart', this.planetChartData);
+  },
+  methods: {
+    createChart(chartId, chartData) {
+      const ctx = document.getElementById(chartId);
+      const myChart = new Chart(ctx, {
+        type: chartData.type,
+        data: chartData.data,
+        options: chartData.options,
+      });
+      return myChart;
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
@@ -15,6 +37,9 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  padding: 40px;
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
 #nav {
